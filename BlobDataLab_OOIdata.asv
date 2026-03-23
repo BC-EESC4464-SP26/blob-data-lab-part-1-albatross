@@ -26,34 +26,32 @@ ctdmo_seawater_temp=ncread(filename, "ctdmo_seawater_temperature");
 
 ncid=netcdf.open(filename, "NC_NOWRITE");
 
-netcdf.getAtt(ncid,netcdf.inqVarID(ncid, 'time'),'units') % seconds since 1900-01-01 0:0:0
+netcdf.getAtt(ncid,netcdf.inqVarID(ncid, 'time'),'units'); % seconds since 1900-01-01 0:0:0
 
 
 newtime=datenum('1900-01-01 0:0:0');
 
 %correcttime = newtime/86400
 
-tt= newtime+(time/86400);
+time= newtime+time;
 
 % Checking your work: Use the "datestr" function to check that your
 % converted times match the time range listed in the netCDF file's
 % attributes for time coverage
 
-testTime = datenum("2014-06-17 23:45:01");
+testTime = datenum("2013-07-24 06:45:01");
 
 % 2b. Calculate the time resolution of the data (i.e. long from one
 % measurement to the next) in minutes. Hint: the "diff" function will be
 % helpful here.
-timeresolution = diff(time);
-timeresoltuionmin = timeresolution/60;
+
 %% 3. Make an initial exploration plot to investigate your data
 % Make a plot of temperature vs. time, being sure to show each individual
 % data point. What do you notice about the seasonal cycle? What about how
 % the variability in the data changes over the year?
 % Hint: Use the function "datetick" to make the time show up as
 % human-readable dates rather than the MATLAB timestamp numbers
-plot(tt, ctdmo_seawater_temp,"--")
-datetick('x','mmm')
+
 %% 4. Dealing with data variability: smoothing and choosing a variability cutoff
 % 4a. Use the movmean function to calculate a 1-day (24 hour) moving mean
 % to smooth the data. Hint: you will need to use the time period between
