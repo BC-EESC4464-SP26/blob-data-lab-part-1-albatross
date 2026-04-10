@@ -222,7 +222,8 @@ figure (2); clf
     hold on
 
     plot(tt_full_convert,OneDay_Smooth_full,"r",'LineWidth',2)
-
+    legend({'Seawater Temp', 'Smoothed Seawater Temp'}, 'location', 'southwest')
+    
     subplot(2,1,2);
     plot(tt_full_convert,OneDaySTD_Smooth_full,"k")
     xlabel('Months')
@@ -233,8 +234,8 @@ figure (2); clf
     cutoffid_full = find(OneDaySTD_Smooth_full < 0.4);
     finalSTDValues_full = OneDaySTD_Smooth_full(cutoffid_full);
     finalTT_full = tt_full_convert(cutoffid_full);
-
     plot(finalTT_full,finalSTDValues_full,"m")
+    legend({'Smoothed STD of Seawater Temp','Cutoff of Data below 0.4'}, 'Location','northeast')
     hold off
 
   %%
