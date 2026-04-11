@@ -59,7 +59,7 @@ timeresoltuionmin = timeresolution/60;
 % human-readable dates rather than the MATLAB timestamp numbers
 figure (1); clf
 subplot(2,1,1);
-plot(tt, ctdmo_seawater_temp,"b--")
+plot(tt, ctdmo_seawater_temp,"b")
 datetick('x','mmm')
 xlabel('Months')
 ylabel('Seawater Temperature C')
@@ -81,7 +81,8 @@ OneDaySTD_Smooth = movstd(ctdmo_seawater_temp,96);
 % Building on the initial plot you made in #3 above, now add:
 %5a. A plot of the 1-day moving mean on the same plot as the original raw data
 
-plot(tt,OneDay_Smooth,"r--",'LineWidth',2)
+plot(tt,OneDay_Smooth,"r",'LineWidth',2)
+
 
 %hold on
 
@@ -89,7 +90,7 @@ plot(tt,OneDay_Smooth,"r--",'LineWidth',2)
 %underneath, but with the same x-axis (hint: you can put two plots in the
 %same figure by using "subplot" and you can specify
 subplot(2,1,2);
-plot(tt,OneDaySTD_Smooth,"k--")
+plot(tt,OneDaySTD_Smooth,".k")
 xlabel('Months')
 ylabel('Seawater Temperature Standard Deviation C')
 datetick('x','mmm')
@@ -105,19 +106,22 @@ hold on
 %from your analysis. Note that you will need to justify this choice in the
 %methods section of your writeup for this lab.
 
-% excluding august to october, basically when STD is greater than 11
+% excluding august to october, basically when STD is greater than .4
 
 %6b. Find the indices of the data points that you are not excluding based
 %on the cutoff chosen in 6a.
 
 cutoffid = find(OneDaySTD_Smooth < 0.4);
 finalSTDValues = OneDaySTD_Smooth(cutoffid);
+finaltempcut=ctdmo_seawater_temp(cutoffid);
 finalTT = tt(cutoffid);
 
 %6c. Update your figure from #5 to add the non-excluded data as a separate
 %plotted set of points (i.e. in a new color) along with the other data you
 %had already plotted.
-plot(finalTT,finalSTDValues,"m--")
+plot(finalTT,finalSTDValues,".m")
+subplot(2,1,1);
+plot(finalTT,finaltempcut,".m")
 hold off
 
 %% 7. Apply the approach from steps 1-6 above to extract data from all OOI deployments in years 1-6
@@ -205,27 +209,37 @@ ctdmo_seawater_temp_full((a+b+c+1):(a+b+c+d),1)= ncread(filename(4),'ctdmo_seawa
 ctdmo_seawater_temp_full((a+b+c+d+1):end,1)= ncread(filename(5),'ctdmo_seawater_temperature');
 
 %% Smooth and Std smooth calculations
-    
+  
 
 OneDay_Smooth_full= movmean(ctdmo_seawater_temp_full,96);
 OneDaySTD_Smooth_full = movstd(ctdmo_seawater_temp_full,96);
 
+cutoffid_full = find(OneDaySTD_Smooth_full < 0.4);
+finalSTDValues = OneDaySTD_Smooth_full(cutoffid_full);
+finaltempcut_full=ctdmo_seawater_temp_full(cutoffid_full); %temp data with only good data 
+finalTT_full= tt_full_convert(cutoffid_full); %time data with only good data
+
+
+OneDay_Smooth_full_removed=movmean(finaltempcut_full,96); %recalculated smoothed with only good data 
 
 %% Plots
 figure (2); clf
     subplot(2,1,1);
-    plot(tt_full_convert,ctdmo_seawater_temp_full,"b")
+    plot(tt_full_convert,ctdmo_seawater_temp_full,".b") %plotted all raw data 
     datetick('x','mmmyy')
     xlabel('Months')
     ylabel('Seawater Temperature C')
     title('Seawater Temperature vs Time')
     hold on
 
-    plot(tt_full_convert,OneDay_Smooth_full,"r",'LineWidth',2)
-    legend({'Seawater Temp', 'Smoothed Seawater Temp'}, 'location', 'southwest')
+    plot(tt_full_convert, OneDay_Smooth_full,".r",'LineWidth',2) %plotted smoothed data
+    plot(finalTT_full,finaltempcut_full,".m")%plotted all non-excluded data
+
+
+    legend({'Seawater Temperature Data', 'Smoothed Seawater Temp','Non-excluded Data'}, 'location', 'southwest')
     
     subplot(2,1,2);
-    plot(tt_full_convert,OneDaySTD_Smooth_full,"k")
+    plot(tt_full_convert,OneDaySTD_Smooth_full,".k")
     xlabel('Months')
     ylabel('Seawater Temperature Standard Deviation C')
     datetick('x','mmmyy')
@@ -234,8 +248,8 @@ figure (2); clf
     cutoffid_full = find(OneDaySTD_Smooth_full < 0.4);
     finalSTDValues_full = OneDaySTD_Smooth_full(cutoffid_full);
     finalTT_full = tt_full_convert(cutoffid_full);
-    plot(finalTT_full,finalSTDValues_full,"m")
-    legend({'Smoothed STD of Seawater Temp','Cutoff of Data below 0.4'}, 'Location','northeast')
+    plot(finalTT_full,finalSTDValues_full,".m")
+    legend({'Smoothed STD of Seawater Temp','Data below 0.4'}, 'Location','northeast')
     hold off
 
   %%
@@ -251,7 +265,7 @@ pressure((a+b+c+d+1):end,1)= ncread(filename(5),'ctdmo_seawater_pressure');
 
 
 figure (6); clf
-plot(tt_full_convert,pressure)
+plot(tt_full_convert,pressure, ".")
 datetick('x','mmm')
 xlabel('Months')
 ylabel('Depth (m)')
