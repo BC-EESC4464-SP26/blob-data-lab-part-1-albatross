@@ -21,7 +21,7 @@ ctdmo_seawater_temp=ncread(filenamepractice, "ctdmo_seawater_temperature");
 % increasing pressure underwater, tells us about depth - 1 dbar ~ 1 m
 % depth). How deep in the water column was this sensor deployed?
 
-pressure=ncread(filenamepractice, "ctdmo_seawater_pressure");
+
 
 %% 2. Converting the timestamp from the raw data to a format you can use
 % Use the datenum function to convert the "time" variable you extracted
@@ -241,9 +241,20 @@ figure (2); clf
 
   %%
   %extension 1: depth 
+pressure=NaN(182694,1);
+
+pressure(1:a,1)= ncread(filename(1),'ctdmo_seawater_pressure');
+pressure((a+1):(a+b),1)= ncread(filename(2),'ctdmo_seawater_pressure');
+pressure((a+b+1):(a+b+c),1)= ncread(filename(3),'ctdmo_seawater_pressure');
+pressure((a+b+c+1):(a+b+c+d),1)= ncread(filename(4),'ctdmo_seawater_pressure');
+pressure((a+b+c+d+1):end,1)= ncread(filename(5),'ctdmo_seawater_pressure');
+
+
 
 figure (6); clf
 plot(tt_full_convert,pressure)
 datetick('x','mmm')
 xlabel('Months')
 ylabel('Depth (m)')
+
+
