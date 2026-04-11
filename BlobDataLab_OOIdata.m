@@ -50,7 +50,7 @@ testTime = datenum("2014-06-17 23:45:01");
 % 2b. Calculate the time resolution of the data (i.e. long from one
 % measurement to the next) in minutes. Hint: the "diff" function will be
 % helpful here.
-timeresolution = diff(time)
+timeresolution = diff(time);
 timeresoltuionmin = timeresolution/60;
 %% 3. Make an initial exploration plot to investigate your data
 % Make a plot of temperature vs. time, being sure to show each individual
