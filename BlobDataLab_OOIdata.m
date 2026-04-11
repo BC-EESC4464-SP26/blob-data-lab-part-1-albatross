@@ -16,7 +16,8 @@ lon = ncreadatt(filenamepractice,"/","lon");
 %"ctdmo_seawater_temperature"
 time=ncread(filenamepractice,"time");
 ctdmo_seawater_temp=ncread(filenamepractice, "ctdmo_seawater_temperature");
-
+ctdmo_seawater_pressure  =ncread(filenamepractice, "ctdmo_seawater_pressure");
+depth = mean(ctdmo_seawater_pressure);
 % Extension option: Also extract the variable "pressure" (which, due to the
 % increasing pressure underwater, tells us about depth - 1 dbar ~ 1 m
 % depth). How deep in the water column was this sensor deployed?
@@ -49,7 +50,7 @@ testTime = datenum("2014-06-17 23:45:01");
 % 2b. Calculate the time resolution of the data (i.e. long from one
 % measurement to the next) in minutes. Hint: the "diff" function will be
 % helpful here.
-timeresolution = diff(time);
+timeresolution = diff(time)
 timeresoltuionmin = timeresolution/60;
 %% 3. Make an initial exploration plot to investigate your data
 % Make a plot of temperature vs. time, being sure to show each individual
