@@ -95,7 +95,7 @@ plot(tt,OneDaySTD_Smooth,"k--")
 title("One Day Moving Standard Deviation of Seawater Temperature")
 xlabel('Months')
 ylabel('Seawater Temperature Standard Deviation C')
-datetick('x','mmm')
+datetick('x','mmmyy')
 hold on
 
 %% 6. Identifying data to exclude from analysis
