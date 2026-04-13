@@ -61,7 +61,7 @@ timeresoltuionmin = timeresolution/60;
 figure (1); clf
 subplot(2,1,1);
 plot(tt, ctdmo_seawater_temp,"b--")
-datetick('x','mmm')
+datetick('x','mmmyy')
 xlabel('Months')
 ylabel('Seawater Temperature C')
 title('Seawater Temperature vs Time')
