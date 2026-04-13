@@ -83,6 +83,7 @@ OneDaySTD_Smooth = movstd(ctdmo_seawater_temp,96);
 %5a. A plot of the 1-day moving mean on the same plot as the original raw data
 
 plot(tt,OneDay_Smooth,"r--",'LineWidth',2)
+legend({'Sea Temp','One-Day Moving Mean of Sea Temp'})
 
 %hold on
 
@@ -91,6 +92,7 @@ plot(tt,OneDay_Smooth,"r--",'LineWidth',2)
 %same figure by using "subplot" and you can specify
 subplot(2,1,2);
 plot(tt,OneDaySTD_Smooth,"k--")
+title("One Day Moving Standard Deviation of Seawater Temperature")
 xlabel('Months')
 ylabel('Seawater Temperature Standard Deviation C')
 datetick('x','mmm')
@@ -119,6 +121,7 @@ finalTT = tt(cutoffid);
 %plotted set of points (i.e. in a new color) along with the other data you
 %had already plotted.
 plot(finalTT,finalSTDValues,"m--")
+legend({'One-Day Moving Mean of Sea Temp STD','One-Day Moving Mean of Sea Temp STD with Cutoff at 0.4'})
 hold off
 
 
